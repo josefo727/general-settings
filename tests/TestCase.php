@@ -12,8 +12,4 @@ class TestCase extends OrchestraTestCase
         return [GeneralSettingsServiceProvider::class];
     }
 
-    // public function createApplication()
-    // {
-    //     putenv('DB_SCHEMA=public');
-    // }
 }

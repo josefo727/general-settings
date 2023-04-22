@@ -3,9 +3,6 @@
 namespace Josefo727\GeneralSettings\Providers;
 
 use Illuminate\Support\ServiceProvider;
-use Illuminate\Support\Facades\Crypt;
-use Illuminate\Encryption\Encrypter;
-use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Facade;
 
 class GeneralSettingsServiceProvider extends ServiceProvider
@@ -24,12 +21,6 @@ class GeneralSettingsServiceProvider extends ServiceProvider
         $this->loadMigrationsFrom(__DIR__.'/../../database/migrations');
         $this->mergeConfigFrom(__DIR__.'/../../config/general_settings.php', 'general_settings');
         // $this->loadViewsFrom(__DIR__.'/resources/views', 'generalsettings');
-
-        $encryptionKey = Config::get('general_settings.encryption.key');
-        $encrypter = new Encrypter($encryptionKey);
-        Crypt::setFacadeApplication([
-            'encrypter' => $encrypter,
-        ]);
     }
 
     public function register()

@@ -53,27 +53,27 @@ class DataType
         $this->types = [
             'string' => [
                 'name' => 'Texto',
-                'rules' => 'unique|string',
+                'rules' => 'required|string',
                 'prepareForUse' => fn($value) => (string) $value,
             ],
             'integer' => [
                 'name' => 'Entero',
-                'rules' => 'unique|integer',
+                'rules' => 'required|integer',
                 'prepareForUse' => fn($value) => (int) $value
             ],
             'float' => [
                 'name' => 'Flotante',
-                'rules' => 'unique|numeric',
+                'rules' => 'required|numeric',
                 'prepareForUse' => fn($value) => (float) $value
             ],
             'boolean' => [
                 'name' => 'Booleano',
-                'rules' => 'unique|boolean',
+                'rules' => 'required|boolean',
                 'prepareForUse' => fn($value) => boolval($value)
             ],
             'array' => [
                 'name' => 'Arreglo',
-                'rules' => 'unique|string|regex:/^[^,]+(,[^,]+)*$/',
+                'rules' => 'required|string|regex:/^[^,]+(,[^,]+)*$/',
                 'prepareForUse' => function($value) {
                         $valye = preg_replace('/\s*,\s*/', ',', $value);
                         return explode(',', $valye);
@@ -81,42 +81,42 @@ class DataType
             ],
             'json' => [
                 'name' => 'JSON',
-                'rules' => 'unique|json',
+                'rules' => 'required|json',
                 'prepareForUse' => fn($value) => json_decode($value, true)
             ],
             'date' => [
                 'name' => 'Fecha',
-                'rules' => 'unique|date',
+                'rules' => 'required|date',
                 'prepareForUse' => fn($value) => Carbon::parse($value)
             ],
             'time' => [
                 'name' => 'Hora',
-                'rules' => 'unique|date_format:H:i:s',
+                'rules' => 'required|date_format:H:i:s',
                 'prepareForUse' => fn($value) => Carbon::parse($value)
             ],
             'datetime' => [
                 'name' => 'Fecha y hora',
-                'rules' => 'unique|date_format:Y-m-d H:i:s',
+                'rules' => 'required|date_format:Y-m-d H:i:s',
                 'prepareForUse' => fn($value) => Carbon::parse($value)
             ],
             'url' => [
                 'name' => 'URL',
-                'rules' => 'unique|url',
+                'rules' => 'required|url',
                 'prepareForUse' => fn($value) => $value
             ],
             'email' => [
                 'name' => 'Correo electrónico',
-                'rules' => 'unique|email',
+                'rules' => 'required|email',
                 'prepareForUse' => fn($value) => $value
             ],
             'emails' => [
                 'name' => 'Correos electrónicos',
-                'rules' => 'unique|string|regex:/^([\w+-.%]+@[\w.-]+\.[A-Za-z]{2,4})(,[\w+-.%]+@[\w.-]+\.[A-Za-z]{2,4})*$/',
+                'rules' => 'required|string|regex:/^([\w+-.%]+@[\w.-]+\.[A-Za-z]{2,4})(,[\w+-.%]+@[\w.-]+\.[A-Za-z]{2,4})*$/',
                 'prepareForUse' => fn($value) => explode(',', $value)
             ],
             'password' => [
                 'name' => 'Contraseña',
-                'rules' => 'unique|string|min:4',
+                'rules' => 'required|string|min:4',
                 'prepareForUse' => function ($value) {
                         $isEncrypted = Config::get('general_settings.encryption.enabled');
                         return $isEncrypted

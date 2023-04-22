@@ -12,8 +12,6 @@ class MigrationTest extends TestCase
 
     public function test_general_settings_table_has_expected_columns()
     {
-        // $this->withoutExceptionHandling();
-
         // Execute the migration
         $this->artisan('migrate', ['--database' => 'testing']);
 

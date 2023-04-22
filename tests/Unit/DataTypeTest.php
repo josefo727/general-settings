@@ -2,12 +2,13 @@
 
 namespace Josefo727\GeneralSettings\Tests\Unit;
 
+use Carbon\Carbon;
+use Illuminate\Support\Str;
+use Illuminate\Encryption\Encrypter;
+use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\Config;
 use Josefo727\GeneralSettings\Tests\TestCase;
 use Josefo727\GeneralSettings\Services\DataType;
-use Illuminate\Support\Facades\Config;
-use Illuminate\Support\Facades\Crypt;
-use Illuminate\Support\Str;
-use Carbon\Carbon;
 
 class DataTypeTest extends TestCase
 {
@@ -136,6 +137,13 @@ class DataTypeTest extends TestCase
     public function should_cast_for_use_returns_correct_value_for_encrypted_password()
     {
         Config::set('general_settings.encryption.enabled', true);
+        $encryptionKey = Config::get('general_settings.encryption.key');
+        $encrypter = new Encrypter($encryptionKey);
+
+        Crypt::setFacadeApplication([
+            'encrypter' => $encrypter,
+        ]);
+
         $value = Str::random();
         $valueEncrypted = Crypt::encrypt($value);
         $type = 'password';
@@ -161,7 +169,7 @@ class DataTypeTest extends TestCase
     public function should_get_validation_rule_returns_correct_rule()
     {
         $result = $this->dataType->getValidationRule('string');
-        $this->assertSame('unique|string', $result);
+        $this->assertSame('required|string', $result);
     }
 
     /** @test */
@@ -170,7 +178,7 @@ class DataTypeTest extends TestCase
         $result = $this->dataType->getTypeInfo('string');
         $expectedResult = [
             'name' => 'Texto',
-            'rules' => 'unique|string',
+            'rules' => 'required|string',
         ];
         unset($result['prepareForUse']);
         $this->assertSame($expectedResult, $result);
@@ -180,6 +188,9 @@ class DataTypeTest extends TestCase
     public function should_get_list_types_returns_comma_separated_list()
     {
         $result = $this->dataType->getListTypes();
-        $this->assertSame('string,integer,float,boolean,array,json,date,time,datetime,url,email,emails,password', $result);
+        $this->assertSame(
+            'string,integer,float,boolean,array,json,date,time,datetime,url,email,emails,password',
+            $result
+        );
     }
 }
