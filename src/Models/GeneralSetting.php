@@ -4,7 +4,9 @@ namespace Josefo727\GeneralSettings\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Validator;
-use Josefo727\GeneralSettings\Services\DataType;
+use Josefo727\GeneralSettings\Services\DataTypeService;
+use Josefo727\GeneralSettings\Services\EncryptionService;
+use Illuminate\Support\Facades\Config;
 
 class GeneralSetting extends Model
 {
@@ -15,9 +17,18 @@ class GeneralSetting extends Model
         'type'
     ];
 
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($setting) {
+            $setting->setValue();
+        });
+    }
+
     public static function getValidationRules($type = 'string'): array
     {
-        $dataType = new DataType();
+        $dataType = new DataTypeService();
         $rules = $dataType->getValidationRule($type);
 
         return [
@@ -43,6 +54,46 @@ class GeneralSetting extends Model
         return $setting;
     }
 
+    public static function updateSetting(GeneralSetting $setting, array $attributes = [], array $options = [])
+    {
+        Validator::make(
+            $attributes,
+            self::getValidationRules($attributes['type'])
+        )->validate();
+
+        $setting->fill($attributes)->save($options);
+
+        return $setting;
+    }
+
+    public function setValue()
+    {
+        // Validate if the encryption configuration is enabled and if the type of value is password.
+        if (Config::get('general_settings.encryption.enabled') && $this->type === 'password') {
+            // If so, we encrypt the value before saving it
+            $encryption = new EncryptionService();
+            $this->value = $encryption->encrypt($this->value);
+        }
+    }
+
+    public function getValueForDisplay()
+    {
+        if ($this->type !== 'password') {
+            return $this->value;
+        }
+
+        if (!Config::get('general_settings.show_passwords')) {
+            return '';
+        }
+
+        if (Config::get('general_settings.encryption.enabled')) {
+            $dataType = new DataTypeService();
+            return $dataType->castForUse($this->value, 'password');
+        }
+
+        return $this->value;
+    }
+
     public static function getValue(string $name)
     {
         $setting = static::query()->firstWhere('name', '=', $name);
@@ -51,7 +102,7 @@ class GeneralSetting extends Model
             return null;
         }
 
-        $dataType = new DataType();
+        $dataType = new DataTypeService();
 
         return $dataType->castForUse($setting->value, $setting->type);
     }

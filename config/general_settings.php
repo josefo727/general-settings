@@ -11,4 +11,5 @@ return [
         'key' => env('GENERAL_SETTINGS_ENCRYPTION_KEY', 'some_default_key'),
     ],
     'css_framework' => env('GENERAL_SETTINGS_CSS_FRAMEWORK', 'bootstrap'), // 'bootstrap', 'tailwind', 'custom'
+    'show_passwords' => env('GENERAL_SETTINGS_SHOW_PASSWORDS', false),
 ];

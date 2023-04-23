@@ -4,13 +4,12 @@ namespace Josefo727\GeneralSettings\Tests\Unit;
 
 use Carbon\Carbon;
 use Illuminate\Support\Str;
-use Illuminate\Encryption\Encrypter;
-use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Config;
 use Josefo727\GeneralSettings\Tests\TestCase;
-use Josefo727\GeneralSettings\Services\DataType;
+use Josefo727\GeneralSettings\Services\DataTypeService;
+use Josefo727\GeneralSettings\Services\EncryptionService;
 
-class DataTypeTest extends TestCase
+class DataTypeServiceTest extends TestCase
 {
     public $dataType;
 
@@ -18,7 +17,7 @@ class DataTypeTest extends TestCase
     {
         parent::setUp();
 
-        $this->dataType = new DataType();
+        $this->dataType = new DataTypeService();
     }
 
     /** @test */
@@ -88,7 +87,7 @@ class DataTypeTest extends TestCase
         $preparedDate = $this->dataType->castForUse($inputDate, $type);
 
         // Assert
-        $this->assertTrue($expectedOutputDate->gte($preparedDate));
+        $this->assertTrue($expectedOutputDate->eq($preparedDate));
     }
 
     /** @test */
@@ -103,7 +102,7 @@ class DataTypeTest extends TestCase
         $preparedDate = $this->dataType->castForUse($inputDate, $type);
 
         // Assert
-        $this->assertTrue($expectedOutputDate->gte($preparedDate));
+        $this->assertTrue($expectedOutputDate->eq($preparedDate));
     }
 
     /** @test */
@@ -118,7 +117,7 @@ class DataTypeTest extends TestCase
         $preparedDate = $this->dataType->castForUse($inputDate, $type);
 
         // Assert
-        $this->assertTrue($expectedOutputDate->gte($preparedDate));
+        $this->assertTrue($expectedOutputDate->eq($preparedDate));
     }
 
     /** @test */
@@ -137,15 +136,10 @@ class DataTypeTest extends TestCase
     public function should_cast_for_use_returns_correct_value_for_encrypted_password()
     {
         Config::set('general_settings.encryption.enabled', true);
-        $encryptionKey = Config::get('general_settings.encryption.key');
-        $encrypter = new Encrypter($encryptionKey);
-
-        Crypt::setFacadeApplication([
-            'encrypter' => $encrypter,
-        ]);
 
         $value = Str::random();
-        $valueEncrypted = Crypt::encrypt($value);
+        $encription = new EncryptionService();
+        $valueEncrypted = $encription->encrypt($value);
         $type = 'password';
 
         $result = $this->dataType->castForUse($valueEncrypted, $type);

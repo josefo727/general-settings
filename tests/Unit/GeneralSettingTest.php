@@ -2,11 +2,11 @@
 
 namespace Josefo727\GeneralSettings\Tests\Feature;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Validator;
-use Josefo727\GeneralSettings\Models\GeneralSetting;
-use Josefo727\GeneralSettings\Services\DataType;
 use Josefo727\GeneralSettings\Tests\TestCase;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Josefo727\GeneralSettings\Models\GeneralSetting;
 
 class GeneralSettingTest extends TestCase
 {
@@ -123,4 +123,56 @@ class GeneralSettingTest extends TestCase
 
         $this->assertEquals(123, GeneralSetting::getValue('test_setting'));
     }
+
+    /** @test */
+    public function should_encrypt_value_when_encryption_is_enabled()
+    {
+        // Enable encryption
+        Config::set('general_settings.encryption.enabled', true);
+
+        // Create a new setting with password type and a value
+        $setting = GeneralSetting::create([
+            'name' => 'test_setting',
+            'value' => 'password',
+            'description' => 'Test setting',
+            'type' => 'password',
+        ]);
+
+        // Assert that the value in the database is different from the original value
+        $this->assertNotEquals('password', $setting->value);
+
+        // Retrieve the setting value
+        $value = GeneralSetting::getValue('test_setting');
+
+        // Assert that the retrieved value is equal to the original value
+        $this->assertEquals('password', $value);
+    }
+
+    /** @test */
+    public function should_update_by_overwriting_the_update_method()
+    {
+        // Arrange
+        $setting = GeneralSetting::create([
+            'name' => 'test_setting',
+            'value' => 'test_value',
+            'description' => 'test_description',
+            'type' => 'string'
+        ]);
+
+        $newAttributes = [
+            'name' => 'test_setting_updated',
+            'value' => '50',
+            'description' => 'test_description_updated',
+            'type' => 'integer'
+        ];
+
+        // Act
+        $updatedSetting = GeneralSetting::updateSetting($setting, $newAttributes);
+
+        // Assert
+        $this->assertEquals($newAttributes['name'], $updatedSetting->name);
+        $this->assertEquals($newAttributes['value'], $updatedSetting->value);
+        $this->assertEquals($newAttributes['description'], $updatedSetting->description);
+        $this->assertEquals($newAttributes['type'], $updatedSetting->type);
+   }
 }

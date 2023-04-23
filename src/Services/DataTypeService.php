@@ -4,11 +4,9 @@ namespace Josefo727\GeneralSettings\Services;
 
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Config;
-use Illuminate\Support\Facades\Crypt;
 
-class DataType
+class DataTypeService
 {
-
     protected array $types = [];
 
     public function __construct()
@@ -47,9 +45,6 @@ class DataType
 
     public function setTypes()
     {
-        $formatDate = Config::get('general_settings.out_format.date');
-        $formatTime = Config::get('general_settings.out_format.time');
-        $formatDateTime = Config::get('general_settings.out_format.date_time');
         $this->types = [
             'string' => [
                 'name' => 'Texto',
@@ -119,8 +114,9 @@ class DataType
                 'rules' => 'required|string|min:4',
                 'prepareForUse' => function ($value) {
                         $isEncrypted = Config::get('general_settings.encryption.enabled');
+                        $encription = new EncryptionService();
                         return $isEncrypted
-                            ? Crypt::decrypt($value)
+                            ? $encription->decrypt($value)
                             : $value;
                     }
             ]
