@@ -28,6 +28,16 @@ class DataTypeService
             : '';
     }
 
+    public function getTypesForSelect(): array
+    {
+        return collect($this->types)->mapWithKeys(function($type, $key) {
+            return [
+                $key => $type['name']
+            ];
+        })->toArray();
+    }
+
+
     public function getTypeInfo($type)
     {
         return $this->types[$type];

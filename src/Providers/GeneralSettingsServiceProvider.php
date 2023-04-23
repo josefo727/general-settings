@@ -17,10 +17,11 @@ class GeneralSettingsServiceProvider extends ServiceProvider
         //     // Agrega más archivos de configuración si es necesario
         // ]);
 
-        // Registra las migraciones y vistas si es necesario
-        $this->loadMigrationsFrom(__DIR__.'/../../database/migrations');
         $this->mergeConfigFrom(__DIR__.'/../../config/general_settings.php', 'general_settings');
-        // $this->loadViewsFrom(__DIR__.'/resources/views', 'generalsettings');
+        // Registra las migraciones y vistas si es necesario
+        $this->loadMigrationsFrom(__DIR__ . '/../../' . 'database/migrations');
+        $this->loadRoutesFrom( __DIR__ . '/../../' . 'routes/web.php');
+        $this->loadViewsFrom(__DIR__ . '/../../'. '/resources/views/general-settings', 'general-settings');
     }
 
     public function register()

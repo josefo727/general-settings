@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Validator;
 use Josefo727\GeneralSettings\Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Http\Request;
 use Josefo727\GeneralSettings\Models\GeneralSetting;
 
 class GeneralSettingTest extends TestCase
@@ -175,4 +176,32 @@ class GeneralSettingTest extends TestCase
         $this->assertEquals($newAttributes['description'], $updatedSetting->description);
         $this->assertEquals($newAttributes['type'], $updatedSetting->type);
    }
+
+    /** @test */
+    public function should_filter_using_the_apply_filters_scope()
+    {
+        $setting1 = GeneralSetting::create([
+            'name' => 'Setting 1',
+            'type' => 'string',
+            'value' => 'Value 1',
+        ]);
+
+        $setting2 = GeneralSetting::create([
+            'name' => 'Setting 2',
+            'type' => 'integer',
+            'value' => '2',
+        ]);
+
+        $request = new Request([
+            'name' => 'Setting 1',
+            'type' => 'string',
+            'value' => 'Value 1',
+        ]);
+
+        $results = GeneralSetting::applyFilters($request)->get();
+
+        $this->assertCount(1, $results);
+        $this->assertTrue($results->contains($setting1));
+        $this->assertFalse($results->contains($setting2));
+    }
 }

@@ -2,12 +2,17 @@
 
 namespace Josefo727\GeneralSettings\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Josefo727\GeneralSettings\Services\DataTypeService;
 use Josefo727\GeneralSettings\Services\EncryptionService;
 use Illuminate\Support\Facades\Config;
 
+/**
+ * @method static \Illuminate\Database\Eloquent\Builder applyFilters(Request $request)
+ */
 class GeneralSetting extends Model
 {
     protected $fillable = [
@@ -106,4 +111,18 @@ class GeneralSetting extends Model
 
         return $dataType->castForUse($setting->value, $setting->type);
     }
+
+    public function scopeApplyFilters(Builder $query, Request $request)
+    {
+        return $query->when($request->has('name'), function ($query) use ($request) {
+                $query->where('name', 'LIKE', "%$request->name%");
+            })
+            ->when($request->has('type'), function ($query) use ($request) {
+                $query->where('type', $request->type);
+            })
+            ->when($request->has('value'), function ($query) use ($request) {
+                $query->where('value', 'LIKE', "%$request->value");
+            });
+    }
+
 }

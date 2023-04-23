@@ -12,4 +12,8 @@ return [
     ],
     'css_framework' => env('GENERAL_SETTINGS_CSS_FRAMEWORK', 'bootstrap'), // 'bootstrap', 'tailwind', 'custom'
     'show_passwords' => env('GENERAL_SETTINGS_SHOW_PASSWORDS', false),
+    'crud_web' => [
+        'enable' => true,
+        'middleware' => \Josefo727\GeneralSettings\Http\Middleware\TestWebMiddleware::class
+    ]
 ];

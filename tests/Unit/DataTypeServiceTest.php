@@ -187,4 +187,14 @@ class DataTypeServiceTest extends TestCase
             $result
         );
     }
+
+    /** @test */
+    public function should_get_types_for_select_types()
+    {
+        $types = $this->dataType->getTypesForSelect();
+
+        $this->assertIsArray($types);
+        $this->assertArrayHasKey('string', $types);
+        $this->assertEquals('Texto', $types['string']);
+    }
 }
