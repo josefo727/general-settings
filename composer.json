@@ -24,6 +24,12 @@
         },
         "classmap": [
             "config/"
+        ],
+        "directories": [
+            "lang",
+            "resources/views",
+            "vendor/josefo727/general-settings/resources/views",
+            "vendor/josefo727/general-settings/public/css"
         ]
     },
     "autoload-dev": {
@@ -34,6 +40,9 @@
     "minimum-stability": "dev",
     "prefer-stable": true,
     "extra": {
+        "branch-alias": {
+            "dev-master": "0.0.1"
+        },
         "laravel": {
             "providers": [
                 "Josefo727\\GeneralSettings\\Providers\\GeneralSettingsServiceProvider"

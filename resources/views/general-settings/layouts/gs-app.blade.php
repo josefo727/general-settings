@@ -7,7 +7,7 @@
     <title>@yield('title')</title>
 
     <!-- Styles -->
-    <link rel="stylesheet" href="{{ asset('general-settings/gs-styles.css') }}">
+    <link rel="stylesheet" href="{{ asset('vendor/general-settings/css/gs-styles.css') }}">
 
     @yield('styles')
 </head>

@@ -4,6 +4,12 @@
   padding: 1rem;
 }
 
+.gs-search {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 .gs-table {
   width: 100%;
   border-collapse: collapse;
@@ -36,6 +42,13 @@
   cursor: pointer;
 }
 
+.gs-btn-search {
+    background: coral;
+}
+
+.gs-btn-create {
+  background-color: blue;
+}
 .gs-btn-view {
   background-color: #4299e1;
 }
@@ -50,8 +63,9 @@
 
 .gs-form-search {
   display: flex;
-  gap: 0.5rem;
-  margin-bottom: 1rem;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
 }
 
 .gs-form-search label {
@@ -70,4 +84,46 @@
   color: #fff;
   font-weight: bold;
   cursor: pointer;
+}
+
+/* Estilos para el formulario */
+.gs-form {
+  display: flex;
+  flex-direction: column;
+  margin: 1rem;
+}
+
+/* Estilos para agrupar los elementos del formulario */
+.gs-form__group {
+  margin: 1rem 0;
+}
+
+/* Estilos para las etiquetas de los campos del formulario */
+.gs-form__label {
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+/* Estilos para los campos de entrada del formulario */
+.gs-form__input {
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 0.25rem;
+  width: 100%;
+}
+
+/* Estilos para el botón del formulario */
+.gs-form__button {
+  margin-top: 1rem;
+  padding: 0.5rem;
+  border: none;
+  border-radius: 0.25rem;
+  background-color: #4caf50;
+  color: #fff;
+  cursor: pointer;
+}
+
+/* Estilos para el botón del formulario cuando se pasa el mouse por encima */
+.gs-form__button:hover {
+  background-color: #2e7d32;
 }

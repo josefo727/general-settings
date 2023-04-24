@@ -29,15 +29,19 @@ class GeneralSetting extends Model
         static::creating(function ($setting) {
             $setting->setValue();
         });
+
+        static::updating(function ($setting) {
+            $setting->setValue();
+        });
     }
 
-    public static function getValidationRules($type = 'string'): array
+    public static function getValidationRules($type = null, $id = null): array
     {
         $dataType = new DataTypeService();
-        $rules = $dataType->getValidationRule($type);
+        $rules = $dataType->getValidationRule($type) ?: 'required';
 
         return [
-            'name' => 'required|string|unique:general_settings,name',
+            'name' => 'required|string|unique:general_settings,name,'.$id,
             'value' => $rules,
             'description' => 'nullable|string',
             'type' => 'required|string|in:' . $dataType->getListTypes(),
@@ -46,10 +50,14 @@ class GeneralSetting extends Model
 
     public static function create(array $attributes = [])
     {
+        if (isset($attributes['type']) && in_array($attributes['type'], ['emails', 'array']) && isset($attributes['value'])) {
+            $value = preg_replace('/\s+/', ' ', $attributes['value']);
+            $attributes['value'] = preg_replace('/\s*,\s*/', ',', $value);
+        }
         // Validate data
         Validator::make(
             $attributes,
-            self::getValidationRules($attributes['type'])
+            self::getValidationRules($attributes['type'] ?? null)
         )->validate();
 
         // Creates the object and saves the data
@@ -61,9 +69,14 @@ class GeneralSetting extends Model
 
     public static function updateSetting(GeneralSetting $setting, array $attributes = [], array $options = [])
     {
+        if (isset($attributes['type']) && in_array($attributes['type'], ['emails', 'array']) && isset($attributes['value'])) {
+            $value = preg_replace('/\s+/', ' ', $attributes['value']);
+            $attributes['value'] = preg_replace('/\s*,\s*/', ',', $value);
+        }
+        // Validate data
         Validator::make(
             $attributes,
-            self::getValidationRules($attributes['type'])
+            self::getValidationRules($attributes['type'] ?? null, $setting->id)
         )->validate();
 
         $setting->fill($attributes)->save($options);
@@ -114,14 +127,14 @@ class GeneralSetting extends Model
 
     public function scopeApplyFilters(Builder $query, Request $request)
     {
-        return $query->when($request->has('name'), function ($query) use ($request) {
+        return $query->when(!!$request->name, function ($query) use ($request) {
                 $query->where('name', 'LIKE', "%$request->name%");
             })
-            ->when($request->has('type'), function ($query) use ($request) {
+            ->when(!!$request->type, function ($query) use ($request) {
                 $query->where('type', $request->type);
             })
-            ->when($request->has('value'), function ($query) use ($request) {
-                $query->where('value', 'LIKE', "%$request->value");
+            ->when(!!$request->value, function ($query) use ($request) {
+                $query->where('value', 'LIKE', "%$request->value%");
             });
     }
 
