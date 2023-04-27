@@ -28,8 +28,7 @@
         "directories": [
             "lang",
             "resources/views",
-            "vendor/josefo727/general-settings/resources/views",
-            "vendor/josefo727/general-settings/public/css"
+            "vendor/josefo727/general-settings/resources/views"
         ]
     },
     "autoload-dev": {
@@ -41,12 +40,22 @@
     "prefer-stable": true,
     "extra": {
         "branch-alias": {
-            "dev-master": "0.0.1"
+            "dev-master": "0.0.2"
         },
         "laravel": {
             "providers": [
                 "Josefo727\\GeneralSettings\\Providers\\GeneralSettingsServiceProvider"
-            ]
+            ],
+            "aliases": {
+                "GeneralSetting": "Josefo727\\GeneralSettings\\Facades\\GeneralSetting"
+            }
         }
+    },
+    "scripts": {
+        "post-install-cmd": [
+            "php artisan vendor:publish --tag=config --force",
+            "php artisan vendor:publish --tag=lang --force",
+            "php artisan vendor:publish --tag=resources --force"
+        ]
     }
 }

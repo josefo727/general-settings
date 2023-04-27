@@ -4,6 +4,7 @@ namespace Josefo727\GeneralSettings\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Facade;
+use Josefo727\GeneralSettings\Models\GeneralSetting;
 
 class GeneralSettingsServiceProvider extends ServiceProvider
 {
@@ -23,21 +24,24 @@ class GeneralSettingsServiceProvider extends ServiceProvider
         $this->loadRoutesFrom( __DIR__ . '/../../' . 'routes/web.php');
         $this->loadViewsFrom(__DIR__ . '/../../'. '/resources/views/general-settings', 'general-settings');
         $this->loadTranslationsFrom(__DIR__. '/../../' . 'lang', 'general-settings');
+
         $this->publishes([
-            __DIR__.'/../../' . 'public' => public_path('vendor/general-settings'),
-        ], 'public');
+            __DIR__.'/../../' . 'config' => config_path(),
+        ], 'config');
         $this->publishes([
             __DIR__.'/../../' . 'lang' => base_path('lang'),
         ], 'lang');
         $this->publishes([
-            __DIR__.'/../../' . 'config' => config_path(),
-        ], 'config');
-
+            __DIR__.'/../../' . 'resources' => base_path('resources'),
+        ], 'resources');
     }
 
     public function register()
     {
         $this->app->register(ServiceProvider::class);
+        $this->app->bind('general-setting', function(){
+            return new GeneralSetting;
+        });
         Facade::setFacadeApplication($this->app);
     }
 

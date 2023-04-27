@@ -33,4 +33,7 @@ return [
     'value_column_title' => 'Valor',
     'create_button_label' => 'Crear',
     'value_placeholder' => 'Valor',
+    'edit_link' => 'Editar',
+    'go_back' => 'Regresar',
+    'general_settings_show_title' => 'Ver Configuración',
 ];

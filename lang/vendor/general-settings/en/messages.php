@@ -33,4 +33,7 @@ return [
     'value_column_title' => 'Value',
     'create_button_label' => 'Create',
     'value_placeholder' => 'Value',
+    'edit_link' => 'Edit',
+    'go_back' => 'Go Bak',
+    'general_settings_show_title' => 'Show Setting',
 ];

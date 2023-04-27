@@ -6,10 +6,7 @@
 
     <title>@yield('title')</title>
 
-    <!-- Styles -->
-    <link rel="stylesheet" href="{{ asset('vendor/general-settings/css/gs-styles.css') }}">
-
-    @yield('styles')
+    @stack('styles')
 </head>
 <body class="bg-gray-100">
     <div class="container mx-auto px-4">
@@ -17,6 +14,6 @@
     </div>
 
     <!-- Scripts -->
-    @yield('scripts')
+    @stack('scripts')
 </body>
 </html>
