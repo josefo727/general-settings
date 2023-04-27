@@ -73,7 +73,7 @@ class DataTypeService
             ],
             'boolean' => [
                 'name' => 'Booleano',
-                'rules' => 'required|boolean',
+                'rules' => 'required|string|in:1,true,on,yes,0,false,off,no',
                 'prepareForUse' => fn($value) => boolval($value)
             ],
             'array' => [
