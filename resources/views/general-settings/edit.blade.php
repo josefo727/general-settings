@@ -15,10 +15,16 @@
         <div class="mb-4">
             <label class="block font-medium text-gray-700" for="name">{{ __('general-settings::messages.name_label') }}</label>
             <input class="form-input rounded-md shadow-lg mt-1 block w-full h-10 border-gray-400" type="text" name="name" id="name" value="{{ $generalSetting->name }}" required>
+            @error('name')
+                <div class="text-sm text-red-600">{{ $message }}</div>
+            @enderror
         </div>
         <div class="mb-4">
             <label class="block font-medium text-gray-700" for="value">{{ __('general-settings::messages.value_label') }}</label>
             <input class="form-input rounded-md shadow-lg mt-1 block w-full h-10 border-gray-400" type="text" name="value" id="value" value="{{ $generalSetting->value }}" required>
+            @error('value')
+                <div class="text-sm text-red-600">{{ $message }}</div>
+            @enderror
         </div>
         <div class="mb-4">
             <label class="block font-medium text-gray-700" for="type">{{ __('general-settings::messages.type_label') }}</label>
@@ -30,10 +36,16 @@
                 </option>
               @endforeach
             </select>
+            @error('type')
+                <div class="text-sm text-red-600">{{ $message }}</div>
+            @enderror
         </div>
         <div class="mb-4">
             <label class="block font-medium text-gray-700" for="description">{{ __('general-settings::messages.description_label') }}</label>
             <textarea class="form-input rounded-md shadow-lg mt-1 block w-full border-gray-400" name="description" id="description" rows="3">{{ $generalSetting->description }}</textarea>
+            @error('description')
+                <div class="text-sm text-red-600">{{ $message }}</div>
+            @enderror
         </div>
         <div class="mb-4">
             <a href="{{ route('admin.general-settings.index') }}">
