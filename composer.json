@@ -35,9 +35,6 @@
     "minimum-stability": "dev",
     "prefer-stable": true,
     "extra": {
-        "branch-alias": {
-            "dev-master": "0.0.2"
-        },
         "laravel": {
             "providers": [
                 "Josefo727\\GeneralSettings\\Providers\\GeneralSettingsServiceProvider"
