@@ -1,6 +1,7 @@
 {
     "name": "josefo727/general-settings",
     "description": "General settings module for Laravel projects.",
+    "license": "MIT",
     "type": "library",
     "authors": [
         {
@@ -24,11 +25,6 @@
         },
         "classmap": [
             "config/"
-        ],
-        "directories": [
-            "lang",
-            "resources/views",
-            "vendor/josefo727/general-settings/resources/views"
         ]
     },
     "autoload-dev": {
