@@ -116,7 +116,7 @@ class DataTypeService
             ],
             'emails' => [
                 'name' => 'Correos electrónicos',
-                'rules' => 'required|string|regex:/^([\w+-.%]+@[\w.-]+\.[A-Za-z]{2,4})(,[\w+-.%]+@[\w.-]+\.[A-Za-z]{2,4})*$/',
+                'rules' => 'required|string|regex:/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}(,[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})*$/',
                 'prepareForUse' => function($value) {
                         $valye = preg_replace('/\s*,\s*/', ',', $value);
                         return explode(',', $valye);

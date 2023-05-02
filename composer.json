@@ -1,54 +1,55 @@
 {
-    "name": "josefo727/general-settings",
-    "description": "General settings module for Laravel projects.",
-    "license": "MIT",
-    "type": "library",
-    "authors": [
-        {
-            "name": "José Rafael Gutierrez",
-            "email": "josefo727@gmail.com"
-        }
-    ],
-    "require": {
-        "php": "^7.3|^8.0",
-        "illuminate/support": "^8.0|^9.0|^10.0",
-        "illuminate/database": "^8.0|^9.0|^10.0"
-    },
-    "require-dev": {
-        "phpunit/phpunit": "^8.0|^9.0|^10.0",
-        "orchestra/testbench": "^8.5",
-        "nesbot/carbon": "^2.54"
-    },
-    "autoload": {
-        "psr-4": {
-            "Josefo727\\GeneralSettings\\": "src/"
-        },
-        "classmap": [
-            "config/"
-        ]
-    },
-    "autoload-dev": {
-        "psr-4": {
-            "Josefo727\\GeneralSettings\\Tests\\": "tests/"
-        }
-    },
-    "minimum-stability": "dev",
-    "prefer-stable": true,
-    "extra": {
-        "laravel": {
-            "providers": [
-                "Josefo727\\GeneralSettings\\Providers\\GeneralSettingsServiceProvider"
-            ],
-            "aliases": {
-                "GeneralSetting": "Josefo727\\GeneralSettings\\Facades\\GeneralSetting"
-            }
-        }
-    },
-    "scripts": {
-        "post-install-cmd": [
-            "php artisan vendor:publish --tag=config --force",
-            "php artisan vendor:publish --tag=lang --force",
-            "php artisan vendor:publish --tag=resources --force"
-        ]
+  "name": "josefo727/general-settings",
+  "description": "General settings module for Laravel projects.",
+  "license": "MIT",
+  "type": "library",
+  "authors": [
+    {
+      "name": "José Rafael Gutierrez",
+      "email": "josefo727@gmail.com"
     }
+  ],
+  "require": {
+    "php": "^7.3|^8.0",
+    "illuminate/support": "^8.0|^9.0|^10.0",
+    "illuminate/database": "^8.0|^9.0|^10.0"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^8.0|^9.0|^10.0",
+    "orchestra/testbench": "^8.5",
+    "nesbot/carbon": "^2.54"
+  },
+  "autoload": {
+    "psr-4": {
+      "Josefo727\\GeneralSettings\\": "src/"
+    },
+    "classmap": [
+      "config/"
+    ]
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Josefo727\\GeneralSettings\\Tests\\": "tests/"
+    }
+  },
+  "minimum-stability": "dev",
+  "prefer-stable": true,
+  "extra": {
+    "branch-alias": {
+      "dev-master": "0.1.0"
+    },
+    "laravel": {
+      "providers": [
+        "Josefo727\\GeneralSettings\\Providers\\GeneralSettingsServiceProvider"
+      ],
+      "aliases": {
+        "GeneralSetting": "Josefo727\\GeneralSettings\\Facades\\GeneralSetting"
+      }
+    }
+  },
+  "scripts": {
+    "post-install-cmd": [
+      "php artisan vendor:publish --tag=general-settings:config --tag=general-settings:lang --tag=general-settings:resources --force"
+    ]
+  }
 }

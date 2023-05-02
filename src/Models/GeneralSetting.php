@@ -22,7 +22,11 @@ class GeneralSetting extends Model
         'type'
     ];
 
-    protected static function boot()
+    protected $appends = [
+        'valueForDisplay'
+    ];
+
+    protected static function boot(): void
     {
         parent::boot();
 
@@ -35,6 +39,11 @@ class GeneralSetting extends Model
         });
     }
 
+    /**
+     * @param mixed $type
+     * @param mixed $id
+     * @return array<string,mixed>
+     */
     public static function getValidationRules($type = null, $id = null): array
     {
         $dataType = new DataTypeService();
@@ -48,7 +57,11 @@ class GeneralSetting extends Model
         ];
     }
 
-    public static function create(array $attributes = [])
+    /**
+     * @return GeneralSetting
+     * @param array<int,mixed> $attributes
+     */
+    public static function create(array $attributes = []): GeneralSetting
     {
         if (isset($attributes['type']) && in_array($attributes['type'], ['emails', 'array']) && isset($attributes['value'])) {
             $value = preg_replace('/\s+/', ' ', $attributes['value']);
@@ -67,7 +80,12 @@ class GeneralSetting extends Model
         return $setting;
     }
 
-    public static function updateSetting(GeneralSetting $setting, array $attributes = [], array $options = [])
+    /**
+     * @return GeneralSetting
+     * @param array<int,mixed> $attributes
+     * @param array<int,mixed> $options
+     */
+    public static function updateSetting(GeneralSetting $setting, array $attributes = [], array $options = []): GeneralSetting
     {
         if (isset($attributes['type']) && in_array($attributes['type'], ['emails', 'array']) && isset($attributes['value'])) {
             $value = preg_replace('/\s+/', ' ', $attributes['value']);
@@ -84,7 +102,10 @@ class GeneralSetting extends Model
         return $setting;
     }
 
-    public function setValue()
+    /**
+     * @return void
+     */
+    public function setValue(): void
     {
         // Validate if the encryption configuration is enabled and if the type of value is password.
         if (Config::get('general_settings.encryption.enabled') && $this->type === 'password') {
@@ -94,7 +115,10 @@ class GeneralSetting extends Model
         }
     }
 
-    public function getValueForDisplay()
+    /**
+     * @return <missing>|string
+     */
+    public function getValueForDisplayAttribute()
     {
         if ($this->type !== 'password') {
             return $this->value;
@@ -112,6 +136,9 @@ class GeneralSetting extends Model
         return $this->value;
     }
 
+    /**
+     * @return null|<missing>
+     */
     public static function getValue(string $name)
     {
         $setting = static::query()->firstWhere('name', '=', $name);
@@ -125,7 +152,10 @@ class GeneralSetting extends Model
         return $dataType->castForUse($setting->value, $setting->type);
     }
 
-    public function scopeApplyFilters(Builder $query, Request $request)
+    /**
+     * @return Builder
+     */
+    public function scopeApplyFilters(Builder $query, Request $request): Builder
     {
         return $query->when(!!$request->name, function ($query) use ($request) {
                 $query->where('name', 'LIKE', "%$request->name%");

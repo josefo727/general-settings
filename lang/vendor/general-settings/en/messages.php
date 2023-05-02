@@ -36,4 +36,5 @@ return [
     'edit_link' => 'Edit',
     'go_back' => 'Go Bak',
     'general_settings_show_title' => 'Show Setting',
+    'save_button_label' => 'Save',
 ];

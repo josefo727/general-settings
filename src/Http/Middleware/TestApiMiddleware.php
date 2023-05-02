@@ -4,7 +4,7 @@ namespace Josefo727\GeneralSettings\Http\Middleware;
 
 use Closure;
 
-class TestWebMiddleware
+class TestApiMiddleware
 {
     /**
      * @return mixed

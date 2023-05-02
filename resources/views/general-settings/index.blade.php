@@ -56,7 +56,7 @@
               {{ $setting->type }}
             </td>
             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-              {{ $setting->value }}
+              {{ $setting->valueForDisplay }}
             </td>
             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
               {{ $setting->created_at->format('Y-m-d H:i') }}

@@ -22,10 +22,12 @@
                   <p class="text-sm font-medium text-gray-500">{{ __('general-settings::messages.type_label') }}</p>
                   <p class="text-lg">{{ $generalSetting->type }}</p>
                 </div>
-                <div class="md:col-span-2">
-                  <p class="text-sm font-medium text-gray-500">{{ __('general-settings::messages.value_label') }}</p>
-                  <p class="text-lg">{{ $generalSetting->value }}</p>
-                </div>
+                @if(!!$generalSetting->valueForDisplay)
+                  <div class="md:col-span-2">
+                    <p class="text-sm font-medium text-gray-500">{{ __('general-settings::messages.value_label') }}</p>
+                    <p class="text-lg">{{ $generalSetting->valueForDisplay }}</p>
+                  </div>
+                @endif
                 <div class="md:col-span-2">
                   <p class="text-sm font-medium text-gray-500">{{ __('general-settings::messages.description_label') }}</p>
                   <p class="text-lg">{{ $generalSetting->description }}</p>

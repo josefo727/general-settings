@@ -66,16 +66,16 @@ class GeneralSettingControllerTest extends TestCase
     /** @test */
     public function should_return_general_settings_create_view()
     {
-    $response = $this->get(route('admin.general-settings.create'));
+        $response = $this->get(route('admin.general-settings.create'));
 
-    $response->assertStatus(200)
-        ->assertViewIs('general-settings::create')
-        ->assertSee(__('general-settings::messages.general_settings_create_title'))
-        ->assertSee(__('general-settings::messages.type_option_all'))
-        ->assertSee(__('general-settings::messages.name_label'))
-        ->assertSee(__('general-settings::messages.type_label'))
-        ->assertSee(__('general-settings::messages.value_label'))
-        ->assertSee(__('general-settings::messages.description_label'));
+        $response->assertStatus(200)
+            ->assertViewIs('general-settings::create')
+            ->assertSee(__('general-settings::messages.general_settings_create_title'))
+            ->assertSee(__('general-settings::messages.type_option_all'))
+            ->assertSee(__('general-settings::messages.name_label'))
+            ->assertSee(__('general-settings::messages.type_label'))
+            ->assertSee(__('general-settings::messages.value_label'))
+            ->assertSee(__('general-settings::messages.description_label'));
     }
 
     /** @test */
@@ -107,7 +107,19 @@ class GeneralSettingControllerTest extends TestCase
         $response = $this->post(route('admin.general-settings.store'), []);
 
         // Assert
-        $response->assertSessionHasErrors(['name', 'value', 'type']);
+        $response->assertStatus(200)
+            ->assertViewIs('general-settings::create')
+            ->assertSee(__('general-settings::messages.general_settings_create_title'))
+            ->assertSee(__('general-settings::messages.type_option_all'))
+            ->assertSee(__('general-settings::messages.name_label'))
+            ->assertSee(__('general-settings::messages.type_label'))
+            ->assertSee(__('general-settings::messages.value_label'))
+            ->assertSee(__('general-settings::messages.description_label'));
+
+        $errors = $response->original->getData()['errors'];
+        $this->assertTrue(isset($errors['name']));
+        $this->assertTrue(isset($errors['value']));
+        $this->assertTrue(isset($errors['type']));
     }
 
     /** @test */
@@ -170,12 +182,22 @@ class GeneralSettingControllerTest extends TestCase
             'description' => 'Url acces',
         ]);
 
-        $response->assertRedirect();
-        $response->assertSessionHasErrors('name');
+        // Assert
+        $response->assertStatus(200)
+            ->assertViewIs('general-settings::edit')
+            ->assertSee(__('general-settings::messages.general_settings_edit_title'))
+            ->assertSee(__('general-settings::messages.type_option_all'))
+            ->assertSee(__('general-settings::messages.name_label'))
+            ->assertSee(__('general-settings::messages.type_label'))
+            ->assertSee(__('general-settings::messages.value_label'))
+            ->assertSee(__('general-settings::messages.description_label'));
+
+        $errors = $response->original->getData()['errors'];
+        $this->assertTrue(isset($errors['name']));
     }
 
     /** @test */
-    public function it_should_update_and_redirect_to_show_if_update_is_successful()
+    public function should_update_and_redirect_to_show_if_update_is_successful()
     {
         $generalSetting = GeneralSetting::create([
                 'name' => 'SITE_URL',

@@ -9,5 +9,9 @@ return [
     'crud_web' => [
         'enable' => true,
         'middleware' => \Josefo727\GeneralSettings\Http\Middleware\TestWebMiddleware::class
+    ],
+    'crud_api' => [
+        'enable' => true,
+        'middleware' => \Josefo727\GeneralSettings\Http\Middleware\TestApiMiddleware::class
     ]
 ];

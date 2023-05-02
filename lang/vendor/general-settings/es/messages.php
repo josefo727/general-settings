@@ -36,4 +36,5 @@ return [
     'edit_link' => 'Editar',
     'go_back' => 'Regresar',
     'general_settings_show_title' => 'Ver Configuración',
+    'save_button_label' => 'Guardar',
 ];
