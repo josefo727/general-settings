@@ -12,12 +12,12 @@ composer require josefo727/general-settings
 php artisan general-settings:install
 ```
 
-2. Ejecutar las migraciones:
+3. Ejecutar las migraciones:
 ```bash
 php artisan migrate
 ```
 
-3. Vaya al Indice en:
+4. Vaya al Indice en:
 ```/admin/general-settings```
 
 # Licencia
