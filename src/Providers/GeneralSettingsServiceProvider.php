@@ -6,11 +6,18 @@ use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Facade;
 use Josefo727\GeneralSettings\Models\GeneralSetting;
 use Illuminate\Contracts\Config\Repository;
+use Illuminate\Filesystem\Filesystem;
 
 class GeneralSettingsServiceProvider extends ServiceProvider
 {
     public function boot(Repository $config): void
     {
+		if ($this->app->runningInConsole()) {
+			$this->commands([
+				\Josefo727\GeneralSettings\Console\InstallGeneralSettings::class,
+			]);
+		}
+
         $this->mergeConfigFrom(__DIR__.'/../../' . 'config/general_settings.php', 'general_settings');
 
         $loadCrudWeb = $config->get('general_settings.crud_web.enable', false);
@@ -20,7 +27,7 @@ class GeneralSettingsServiceProvider extends ServiceProvider
         $this->loadMigrationsFrom(__DIR__ . '/../../' . 'database/migrations');
         if ($loadCrudWeb) {
             $this->loadRoutesFrom(__DIR__ . '/../../' . 'routes/web.php');
-            $this->loadViewsFrom(__DIR__ . '/../../'. '/resources/views/general-settings', 'general-settings');
+			$this->loadViewsFrom(__DIR__ . '/../../'. '/resources/views/general-settings', 'general-settings');
         }
         $this->loadTranslationsFrom(__DIR__. '/../../' . 'lang', 'general-settings');
 
@@ -33,6 +40,9 @@ class GeneralSettingsServiceProvider extends ServiceProvider
         $this->publishes([
             __DIR__.'/../../' . 'resources' => base_path('resources'),
         ], 'general-settings:resources');
+		$this->publishes([
+            __DIR__.'/../../' . 'routes/web.php' => base_path('routes/gs-web.php'),
+        ], 'general-settings:routes');
     }
 
     public function register(): void
