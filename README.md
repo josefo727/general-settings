@@ -3,12 +3,21 @@ Este paquete permite gestionar configuraciones generales en una aplicación Lara
 
 ##Instalación
 1. Ejecutar el siguiente comando en la raíz de tu proyecto para instalar el paquete:
-```composer require josefo727/general-settings```
+```bash
+composer require josefo727/general-settings
+```
 
-2. Ejecutar las migraciones con el siguiente comando:
-```php artisan migrate```
+2. Ejecutar el siguiente comando:
+```bash
+php artisan general-settings:install
+```
 
-3. Vaya el Indice en:
+2. Ejecutar las migraciones:
+```bash
+php artisan migrate
+```
+
+3. Vaya al Indice en:
 ```/admin/general-settings```
 
 # Licencia
